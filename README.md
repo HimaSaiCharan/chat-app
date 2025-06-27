@@ -1,0 +1,1 @@
+The mongo db server is on the local host. Should change it. 
