@@ -1,21 +1,21 @@
-import { Injectable, Res } from '@nestjs/common';
-import { captureRejectionSymbol } from 'events';
-import { urlencoded } from 'express';
-import { ConnectionCheckOutStartedEvent } from 'mongodb';
-import { DatabaseService } from 'src/database/database.service';
-import { Chat, ChatMeta, Conversations, message, UserInfo } from 'src/types';
+import { Injectable, Res } from "@nestjs/common";
+import { captureRejectionSymbol } from "events";
+import { urlencoded } from "express";
+import { ConnectionCheckOutStartedEvent } from "mongodb";
+import { DatabaseService } from "src/database/database.service";
+import { Chat, ChatMeta, Conversations, message, UserInfo } from "src/types";
 
 @Injectable()
 export class AuthService {
   constructor(private readonly dbService: DatabaseService) {}
 
   userInfo: UserInfo = {
-    username: '',
-    password: '',
+    username: "",
+    password: "",
     chats: [],
   };
 
-  sessions: object = { '123': 'Malli' };
+  sessions: object = { "123": "Malli" };
 
   getUsername(sessionId: string) {
     return this.sessions[sessionId];
@@ -36,14 +36,14 @@ export class AuthService {
 
   createSession = (username: string, res) => {
     const cookie = Math.random().toString(36).substring(2);
-    res.cookie('sessionId', cookie);
+    res.cookie("sessionId", cookie);
     this.sessions[cookie] = username;
   };
 
   async signupUser(username: string, password: string, res) {
     const db = this.dbService.getDb();
-    const usersCollection = this.getDb('users');
-    const chatCollection = this.getDb('conversations');
+    const usersCollection = this.getDb("users");
+    const chatCollection = this.getDb("conversations");
     const value = await this.isNameValid(username, usersCollection);
 
     if (!value) {
@@ -59,45 +59,45 @@ export class AuthService {
       password,
       chats: [
         {
-          name: 'bhagya',
-          last_message: "Hey what's up ?",
-          chat_id: '1',
+          name: "bhagya",
+          lastMessage: "Hey what's up ?",
+          chatId: "1",
         },
         {
-          name: 'abc',
-          last_message: 'Hey there !',
-          chat_id: '2',
+          name: "abc",
+          lastMessage: "Hey there !",
+          chatId: "2",
         },
         {
-          name: 'Guy 1',
-          last_message: 'Hi',
-          chat_id: '3',
+          name: "Guy 1",
+          lastMessage: "Hi",
+          chatId: "3",
         },
       ],
     };
     await usersCollection.insertOne(this.userInfo);
     await chatCollection.insertOne({
-      from: 'bhagya',
-      to: 'malli',
-      msg: 'hello',
-      chat_id: 1,
+      from: "bhagya",
+      to: "malli",
+      msg: "hello",
+      chatId: 1,
     });
 
     return res.json({
       isAccountCreated: true,
-      message: 'Account created successfully',
-      url: '../signIn.html',
+      message: "Account created successfully",
+      url: "../signIn.html",
     });
   }
 
   async signinUser(username: string, password: string, res) {
-    const usersCollection = this.getDb('users');
+    const usersCollection = this.getDb("users");
     const users = usersCollection.find();
 
     for await (const user of users) {
       if (user.username === username || user.password === password) {
         this.createSession(username, res);
-        return res.json({ isExist: true, url: '../main.html' });
+        return res.json({ isExist: true, url: "../index.html" });
       }
     }
 
@@ -105,27 +105,27 @@ export class AuthService {
   }
 
   async chatList(username: string) {
-    const usersCollection = this.getDb('users');
+    const usersCollection = this.getDb("users");
     const user = usersCollection.find(
       { username },
-      { projection: { username: 1, chats: 1 } },
+      { projection: { username: 1, chats: 1 } }
     );
 
     // user.chats = [
     //   {
     //     name: 'bhagya',
-    //     last_message: "Hey what's up ?",
-    //     chat_id: '1',
+    //     lastMessage: "Hey what's up ?",
+    //     chatId: '1',
     //   },
     //   {
     //     name: 'abc',
-    //     last_message: 'Hey there !',
-    //     chat_id: '2',
+    //     lastMessage: 'Hey there !',
+    //     chatId: '2',
     //   },
     //   {
     //     name: 'Guy 1',
-    //     last_message: 'Hi',
-    //     chat_id: '3',
+    //     lastMessage: 'Hi',
+    //     chatId: '3',
     //   },
     // ];
     const chatList = (await user.toArray())[0];
@@ -134,46 +134,46 @@ export class AuthService {
   }
 
   async getFriendName(chatId: string, sessionId: string) {
-    const usersCollection = this.getDb('users');
+    const usersCollection = this.getDb("users");
     const username = this.sessions[sessionId];
     const chats = await usersCollection
       .find({ username: username }, { projection: { chats: 1 } })
       .toArray();
-    const index = chats[0].chats.findIndex((chat) => chat.chat_id === chatId);
+    const index = chats[0].chats.findIndex((chat) => chat.chatId === chatId);
     return chats[0].chats[index].name;
   }
 
   async showChat(chatId: string, sessionId: string) {
     const friendName = this.getFriendName(chatId, sessionId);
-    const chatCollection = this.getDb('conversations');
-    const chats = await chatCollection.find({ chat_id: chatId }).toArray();
+    const chatCollection = this.getDb("conversations");
+    const chats = await chatCollection.find({ chatId: chatId }).toArray();
 
     return { chatName: friendName, chats: chats };
   }
 
   async getChatId(from, username) {
-    const usersCollection = this.getDb('users');
+    const usersCollection = this.getDb("users");
     const user = await usersCollection.findOne({ username });
 
     if (user) {
       const chat = user.chats.find((c: ChatMeta) => c.name === from);
 
-      return chat?.chat_id ?? null;
+      return chat?.chatId ?? null;
     }
 
     return null;
   }
 
   async storeChatInDb(chat: Chat) {
-    const conversations = this.getDb('conversations');
+    const conversations = this.getDb("conversations");
     conversations.insertOne(chat);
 
-    return 'successfully stored!';
+    return "successfully stored!";
   }
 
   async storeChat({ from, to, msg }, username) {
     const id = await this.getChatId(from, username);
 
-    return this.storeChatInDb({ from, to, msg, chat_id: id });
+    return this.storeChatInDb({ from, to, msg, chatId: id });
   }
 }

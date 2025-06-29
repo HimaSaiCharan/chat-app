@@ -1,5 +1,5 @@
-import { DatabaseService } from 'src/database/database.service';
-import { Chat, UserInfo } from 'src/types';
+import { DatabaseService } from "src/database/database.service";
+import { Chat, UserInfo } from "src/types";
 export declare class AuthService {
     private readonly dbService;
     constructor(dbService: DatabaseService);

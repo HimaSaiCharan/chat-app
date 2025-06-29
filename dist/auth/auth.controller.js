@@ -21,7 +21,7 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     logger() {
-        console.log('inside logger');
+        console.log("inside logger");
     }
     signupUser(body, res) {
         return this.authService.signupUser(body.username, body.password, res);
@@ -29,10 +29,11 @@ let AuthController = class AuthController {
     signinUser(body, res) {
         return this.authService.signinUser(body.username, body.password, res);
     }
-    async getFriends(req, res) {
+    async getFriends(req) {
         const sessionId = req.cookies.sessionId;
         const username = this.authService.getUsername(sessionId);
         const frnds = await this.authService.chatList(username);
+        console.log("frnds:", frnds);
         return { data: frnds, success: true };
     }
     showChat(chatId, req) {
@@ -52,7 +53,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "logger", null);
 __decorate([
-    (0, common_1.Post)('/signup'),
+    (0, common_1.Post)("/signup"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -60,7 +61,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signupUser", null);
 __decorate([
-    (0, common_1.Post)('/signin'),
+    (0, common_1.Post)("/signin"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -68,23 +69,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signinUser", null);
 __decorate([
-    (0, common_1.Get)('/chat-list'),
+    (0, common_1.Get)("/chat-list"),
     __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Response]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getFriends", null);
 __decorate([
-    (0, common_1.Get)('/chat/:chatId'),
-    __param(0, (0, common_1.Param)('chatId')),
+    (0, common_1.Get)("/chat/:chatId"),
+    __param(0, (0, common_1.Param)("chatId")),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "showChat", null);
 __decorate([
-    (0, common_1.Post)('/storechat'),
+    (0, common_1.Post)("/storechat"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),

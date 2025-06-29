@@ -1,12 +1,12 @@
-import { AuthService } from './auth.service';
-import { Request } from 'express';
+import { AuthService } from "./auth.service";
+import { Request } from "express";
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
     logger(): void;
     signupUser(body: any, res: Response): Promise<any>;
     signinUser(body: any, res: Response): Promise<any>;
-    getFriends(req: Request, res: Response): Promise<{
+    getFriends(req: Request): Promise<{
         data: import("mongodb").WithId<import("bson").Document>;
         success: boolean;
     }>;

@@ -14,8 +14,8 @@ const auth_controller_1 = require("./auth/auth.controller");
 const auth_middleware_1 = require("./auth/auth.middleware");
 let AppModule = class AppModule {
     configure(consumer) {
-        consumer.apply(auth_middleware_1.LoggerMiddleware).forRoutes('*');
-        consumer.apply(auth_middleware_1.ValidateUserName).forRoutes('/signup');
+        consumer.apply(auth_middleware_1.LoggerMiddleware).forRoutes("*");
+        consumer.apply(auth_middleware_1.ValidateUserName).forRoutes("/signup");
     }
 };
 exports.AppModule = AppModule;

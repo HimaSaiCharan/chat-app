@@ -2,13 +2,13 @@ export interface Chat {
   from: string;
   to: string;
   msg: string;
-  chat_id: string;
+  chatId: string;
 }
 
 export interface ChatMeta {
   name: string;
-  last_message: string;
-  chat_id: string;
+  lastMessage: string;
+  chatId: string;
 }
 
 export interface UserInfo {
