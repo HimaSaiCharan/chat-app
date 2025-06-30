@@ -1,6 +1,16 @@
-import { Controller, Get, Post, Body, Res, Req, Param } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Res,
+  Req,
+  Param,
+  UseGuards,
+} from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { Request } from "express";
+import { Request, Response } from "express";
+import { join } from "path";
 
 @Controller()
 export class AuthController {
@@ -27,7 +37,6 @@ export class AuthController {
     const username = this.authService.getUsername(sessionId);
     const frnds = await this.authService.chatList(username);
 
-    console.log("frnds:", frnds);
     return { data: frnds, success: true };
   }
 

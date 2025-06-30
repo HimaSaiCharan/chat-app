@@ -1,7 +1,4 @@
 import { Injectable, Res } from "@nestjs/common";
-import { captureRejectionSymbol } from "events";
-import { urlencoded } from "express";
-import { ConnectionCheckOutStartedEvent } from "mongodb";
 import { DatabaseService } from "src/database/database.service";
 import { Chat, ChatMeta, Conversations, message, UserInfo } from "src/types";
 
@@ -106,31 +103,10 @@ export class AuthService {
 
   async chatList(username: string) {
     const usersCollection = this.getDb("users");
-    const user = usersCollection.find(
-      { username },
-      { projection: { username: 1, chats: 1 } }
-    );
-
-    // user.chats = [
-    //   {
-    //     name: 'bhagya',
-    //     lastMessage: "Hey what's up ?",
-    //     chatId: '1',
-    //   },
-    //   {
-    //     name: 'abc',
-    //     lastMessage: 'Hey there !',
-    //     chatId: '2',
-    //   },
-    //   {
-    //     name: 'Guy 1',
-    //     lastMessage: 'Hi',
-    //     chatId: '3',
-    //   },
-    // ];
-    const chatList = (await user.toArray())[0];
-
-    return chatList;
+    const user = await usersCollection
+      .find({ username }, { projection: { username: 1, chats: 1 } })
+      .toArray();
+    return user[0];
   }
 
   async getFriendName(frndName: string, sessionId: string) {
