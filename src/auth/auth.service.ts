@@ -81,10 +81,6 @@ export class AuthService {
       chatId: "1",
     });
 
-    console.log(
-      "after chatCollection --> ",
-      await chatCollection.find().toArray()
-    );
     return res.json({
       isAccountCreated: true,
       message: "Account created successfully",
@@ -122,45 +118,22 @@ export class AuthService {
       { projection: { _id: 0, "chats.$": 1 } }
     );
     const [chats] = results?.chats;
-    // const chats = [
-    //   {
-    //     name: "bhagya",
-    //     lastMessage: "Hey what's up ?",
-    //     chatId: "1",
-    //   },
-    //   {
-    //     name: "abc",
-    //     lastMessage: "Hey there !",
-    //     chatId: "2",
-    //   },
-    //   {
-    //     name: "Guy 1",
-    //     lastMessage: "Hi",
-    //     chatId: "3",
-    //   },
-    // ];
-    console.log("chats:", chats);
 
     return chats.chatId;
   }
 
   async showChat(frndName: string, sessionId: string) {
     const chatId = await this.getFriendName(frndName, sessionId);
-    console.log("friendName - chatId ", frndName, chatId);
     const chatCollection = this.getDb("conversations");
-    console.log("chatCollection :: ", await chatCollection.find().toArray());
     const chats = await chatCollection.find({ chatId }).toArray();
-    console.log("chat in showChat :: ", chats);
     return { chatName: frndName, chats };
   }
 
-  async getChatId(from: string, username: string) {
+  async getChatId(to: string, username: string) {
     const usersCollection = this.getDb("users");
     const user = await usersCollection.findOne({ username });
-
     if (user) {
-      const chat = user.chats.find((c: ChatMeta) => c.name === from);
-
+      const chat = user.chats.find((c: ChatMeta) => c.name === to);
       return chat?.chatId ?? null;
     }
 
@@ -170,13 +143,12 @@ export class AuthService {
   async storeChatInDb(chat: Chat) {
     const conversations = this.getDb("conversations");
     conversations.insertOne(chat);
-
     return "successfully stored!";
   }
 
-  async storeChat({ from, to, msg }, username: string) {
-    const id = await this.getChatId(from, username);
+  async storeChat(to: string, msg: string, username: string) {
+    const id = await this.getChatId(to, username);
 
-    return this.storeChatInDb({ from, to, msg, chatId: id });
+    return this.storeChatInDb({ from: username, to, msg, chatId: id });
   }
 }

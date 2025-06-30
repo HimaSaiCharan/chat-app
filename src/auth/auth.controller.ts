@@ -46,11 +46,16 @@ export class AuthController {
     return this.authService.showChat(frndName, req.cookies.sessionId);
   }
 
-  @Post("/storechat")
-  stroreChat(@Body() data, @Req() req: Request) {
+  @Post("/chat/:frndName")
+  stroreChat(
+    @Body() data,
+    @Req() req: Request,
+    @Param("frndName") name: string
+  ) {
     const sessionId = req.cookies.sessionId;
 
     const username = this.authService.getUsername(sessionId);
-    return this.authService.storeChat(data, username);
+    const msg = data.message;
+    return this.authService.storeChat(name, msg, username);
   }
 }
