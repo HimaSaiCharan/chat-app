@@ -133,18 +133,38 @@ export class AuthService {
     return chatList;
   }
 
-  async getFriendName(chatId: string, sessionId: string) {
+  async getFriendName(frndName: string, sessionId: string) {
     const usersCollection = this.getDb("users");
     const username = this.sessions[sessionId];
     const chats = await usersCollection
       .find({ username: username }, { projection: { chats: 1 } })
       .toArray();
+    // const chats = [
+    //   {
+    //     name: "bhagya",
+    //     lastMessage: "Hey what's up ?",
+    //     chatId: "1",
+    //   },
+    //   {
+    //     name: "abc",
+    //     lastMessage: "Hey there !",
+    //     chatId: "2",
+    //   },
+    //   {
+    //     name: "Guy 1",
+    //     lastMessage: "Hi",
+    //     chatId: "3",
+    //   },
+    // ];
+    console.log("chats:", chats);
+    const chatId = chats.find((chat) => chat.name === frndName)?.chatId;
+    console.log("chatId:", chatId);
     const index = chats[0].chats.findIndex((chat) => chat.chatId === chatId);
-    return chats[0].chats[index].name;
+    return [chats[0].chats[index].name, chatId];
   }
 
-  async showChat(chatId: string, sessionId: string) {
-    const friendName = this.getFriendName(chatId, sessionId);
+  async showChat(frndName: string, sessionId: string) {
+    const [friendName, chatId] = await this.getFriendName(frndName, sessionId);
     const chatCollection = this.getDb("conversations");
     const chats = await chatCollection.find({ chatId: chatId }).toArray();
 

@@ -12,9 +12,9 @@ export declare class AuthService {
     signupUser(username: string, password: string, res: any): Promise<any>;
     signinUser(username: string, password: string, res: any): Promise<any>;
     chatList(username: string): Promise<import("mongodb").WithId<import("bson").Document>>;
-    getFriendName(chatId: string, sessionId: string): Promise<any>;
-    showChat(chatId: string, sessionId: string): Promise<{
-        chatName: Promise<any>;
+    getFriendName(frndName: string, sessionId: string): Promise<any[]>;
+    showChat(frndName: string, sessionId: string): Promise<{
+        chatName: any;
         chats: import("mongodb").WithId<import("bson").Document>[];
     }>;
     getChatId(from: any, username: any): Promise<any>;

@@ -10,8 +10,8 @@ export declare class AuthController {
         data: import("mongodb").WithId<import("bson").Document>;
         success: boolean;
     }>;
-    showChat(chatId: string, req: Request): Promise<{
-        chatName: Promise<any>;
+    showChat(frndName: string, req: Request): Promise<{
+        chatName: any;
         chats: import("mongodb").WithId<import("bson").Document>[];
     }>;
     stroreChat(data: any, req: Request): Promise<string>;

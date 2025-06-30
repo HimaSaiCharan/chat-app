@@ -36,8 +36,8 @@ let AuthController = class AuthController {
         console.log("frnds:", frnds);
         return { data: frnds, success: true };
     }
-    showChat(chatId, req) {
-        return this.authService.showChat(chatId, req.cookies.sessionId);
+    showChat(frndName, req) {
+        return this.authService.showChat(frndName, req.cookies.sessionId);
     }
     stroreChat(data, req) {
         const sessionId = req.cookies.sessionId;
@@ -76,8 +76,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getFriends", null);
 __decorate([
-    (0, common_1.Get)("/chat/:chatId"),
-    __param(0, (0, common_1.Param)("chatId")),
+    (0, common_1.Get)("/chat/:frndName"),
+    __param(0, (0, common_1.Param)("frndName")),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
