@@ -150,7 +150,7 @@ export class AuthService {
     const usersCollection = this.getDb("users");
     await usersCollection.updateOne(
       { username },
-      { $set: { last_message: message } }
+      { $set: { lastMessage: message } }
     );
   }
 
