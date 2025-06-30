@@ -1,7 +1,7 @@
 export interface Chat {
   from: string;
   to: string;
-  msg: string;
+  message: string;
   chatId: string;
 }
 

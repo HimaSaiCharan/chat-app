@@ -126,7 +126,7 @@ export class AuthService {
     const chatId = await this.getFriendName(frndName, sessionId);
     const chatCollection = this.getDb("conversations");
     const chats = await chatCollection.find({ chatId }).toArray();
-    return { chatName: frndName, chats };
+    return { chatName: frndName, chats, success: true };
   }
 
   async getChatId(to: string, username: string) {
@@ -143,21 +143,21 @@ export class AuthService {
   async storeChatInDb(chat: Chat) {
     const conversations = this.getDb("conversations");
     conversations.insertOne(chat);
-    return "successfully stored!";
+    return { success: true, message: "Successfully Send" };
   }
 
-  async updatelastMsg(msg: string, username: string) {
+  async updatelastMsg(message: string, username: string) {
     const usersCollection = this.getDb("users");
     await usersCollection.updateOne(
       { username },
-      { $set: { last_message: msg } }
+      { $set: { last_message: message } }
     );
   }
 
-  async storeChat(to: string, msg: string, username: string) {
-    this.updatelastMsg(msg, username);
-    const id = await this.getChatId(to, username);
+  async storeChat(to: string, message: string, from: string) {
+    this.updatelastMsg(message, from);
+    const chatId = await this.getChatId(to, from);
 
-    return this.storeChatInDb({ from: username, to, msg, chatId: id });
+    return this.storeChatInDb({ from, to, message, chatId });
   }
 }
