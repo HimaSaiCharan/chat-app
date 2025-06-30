@@ -146,7 +146,16 @@ export class AuthService {
     return "successfully stored!";
   }
 
+  async updatelastMsg(msg: string, username: string) {
+    const usersCollection = this.getDb("users");
+    await usersCollection.updateOne(
+      { username },
+      { $set: { last_message: msg } }
+    );
+  }
+
   async storeChat(to: string, msg: string, username: string) {
+    this.updatelastMsg(msg, username);
     const id = await this.getChatId(to, username);
 
     return this.storeChatInDb({ from: username, to, msg, chatId: id });
