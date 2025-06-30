@@ -42,6 +42,7 @@ export class AuthController {
 
   @Get("/chat/:frndName")
   showChat(@Param("frndName") frndName: string, @Req() req: Request) {
+    console.log("frined name:", frndName);
     return this.authService.showChat(frndName, req.cookies.sessionId);
   }
 
