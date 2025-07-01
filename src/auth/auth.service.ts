@@ -146,16 +146,21 @@ export class AuthService {
     return { success: true, message: "Successfully Send" };
   }
 
-  async updatelastMsg(message: string, username: string) {
+  async updatelastMsg(message: string, username: string, frndName: string) {
     const usersCollection = this.getDb("users");
     await usersCollection.updateOne(
-      { username },
-      { $set: { lastMessage: message } }
+      { username, "chats.name": frndName },
+      { $set: { "chats.$.lastMessage": message } }
+    );
+
+    await usersCollection.updateOne(
+      { username: frndName, "chats.name": username },
+      { $set: { "chats.$.lastMessage": message } }
     );
   }
 
   async storeChat(to: string, message: string, from: string) {
-    this.updatelastMsg(message, from);
+    this.updatelastMsg(message, from, to);
     const chatId = await this.getChatId(to, from);
 
     return this.storeChatInDb({ from, to, message, chatId });
