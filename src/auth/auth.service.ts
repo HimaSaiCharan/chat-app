@@ -12,7 +12,7 @@ export class AuthService {
     chats: [],
   };
 
-  sessions: object = { "123": "Malli" };
+  sessions: object = { "123": "bbb" };
 
   getUsername(sessionId: string) {
     return this.sessions[sessionId];
@@ -166,17 +166,33 @@ export class AuthService {
     return this.storeChatInDb({ from, to, message, chatId });
   }
 
-  async searchPeople(name: string) {
+  private getFriends = async (username: string) => {
     const usersCollection = this.getDb("users");
-    console.log("all the users are", await usersCollection.find().toArray());
-    const users = await usersCollection
-      .find({
-        username: { $regex: `^${name}`, $options: "i" },
-      })
+    const chats = await usersCollection
+      .find({ username }, { projection: { chats: 1 } })
       .toArray();
 
-    console.log("The users are", users);
+    const names = chats.flatMap((chat) => {
+      return chat.chats.map((c: ChatMeta) => c.name);
+    });
 
-    return users;
+    return names;
+  };
+
+  async searchPeople(name: string, username: string) {
+    const usersCollection = this.getDb("users");
+    const users = await usersCollection
+      .find(
+        {
+          username: { $regex: `^${name}`, $options: "i" },
+        },
+        { projection: { username: 1 } }
+      )
+      .toArray();
+    const friends = await this.getFriends(username);
+
+    return users.map(({ _id, username }) => {
+      return { username, isFriend: friends.includes(username) };
+    });
   }
 }
