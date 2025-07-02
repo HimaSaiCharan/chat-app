@@ -165,4 +165,18 @@ export class AuthService {
 
     return this.storeChatInDb({ from, to, message, chatId });
   }
+
+  async searchPeople(name: string) {
+    const usersCollection = this.getDb("users");
+    console.log("all the users are", await usersCollection.find().toArray());
+    const users = await usersCollection
+      .find({
+        username: { $regex: `^${name}`, $options: "i" },
+      })
+      .toArray();
+
+    console.log("The users are", users);
+
+    return users;
+  }
 }

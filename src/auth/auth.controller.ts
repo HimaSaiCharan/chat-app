@@ -7,6 +7,7 @@ import {
   Req,
   Param,
   UseGuards,
+  Query,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { Request, Response } from "express";
@@ -57,5 +58,12 @@ export class AuthController {
     const username = this.authService.getUsername(sessionId);
     const msg = data.message;
     return this.authService.storeChat(name, msg, username);
+  }
+
+  @Get("/search")
+  searchPeople(@Query() query: { name: string }) {
+    const { name } = query;
+    console.log("name is", name);
+    return this.authService.searchPeople(name);
   }
 }
