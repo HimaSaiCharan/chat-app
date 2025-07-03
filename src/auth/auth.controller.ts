@@ -61,13 +61,18 @@ export class AuthController {
   }
 
   @Get("/search")
-  searchPeople(@Query() query: { name: string }, @Req() req: Request) {
-    const { name } = query;
+  searchPeople(@Query() { name }: { name: string }, @Req() req: Request) {
     const sessionId = req.cookies.sessionId;
     if (name === "") return [];
     return this.authService.searchPeople(
       name,
       this.authService.getUsername(sessionId)
     );
+  }
+
+  @Get("/request")
+  addFriend(@Query() { name }: { name: string }, @Req() req: Request) {
+    const userName = this.authService.getUsername(req.cookies.sessionId);
+    return this.authService.addFriend(userName, name);
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable, Res } from "@nestjs/common";
+import { Collection } from "mongodb";
 import { DatabaseService } from "src/database/database.service";
 import { Chat, ChatMeta, Conversations, message, UserInfo } from "src/types";
 
@@ -12,6 +13,8 @@ export class AuthService {
     chats: [],
   };
 
+  private counter: number = 0;
+
   sessions: object = { "123": "bhagya" };
 
   getUsername(sessionId: string) {
@@ -23,12 +26,12 @@ export class AuthService {
     return db.collection(dbName);
   }
 
-  async isNameValid(username: string, usersCollection) {
+  async isUserAlreadyThere(username: string, usersCollection) {
     const values = await usersCollection.find({ username: username }).toArray();
     if (values.length > 0) {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 
   createSession = (username: string, res) => {
@@ -41,9 +44,9 @@ export class AuthService {
     const db = this.dbService.getDb();
     const usersCollection = this.getDb("users");
     const chatCollection = this.getDb("conversations");
-    const value = await this.isNameValid(username, usersCollection);
+    const value = await this.isUserAlreadyThere(username, usersCollection);
 
-    if (!value) {
+    if (value) {
       return res.json({
         isAccountCreated: false,
         message: `${username} is already used`,
@@ -54,32 +57,10 @@ export class AuthService {
     this.userInfo = {
       username,
       password,
-      chats: [
-        {
-          name: "bhagya",
-          lastMessage: "Hey what's up ?",
-          chatId: "1",
-        },
-        {
-          name: "abc",
-          lastMessage: "Hey there !",
-          chatId: "2",
-        },
-        {
-          name: "Guy 1",
-          lastMessage: "Hi",
-          chatId: "3",
-        },
-      ],
+      chats: [],
     };
 
     await usersCollection.insertOne(this.userInfo);
-    await chatCollection.insertOne({
-      from: "bhagya",
-      to: "malli",
-      message: "hello",
-      chatId: "1",
-    });
 
     return res.json({
       isAccountCreated: true,
@@ -93,7 +74,7 @@ export class AuthService {
     const users = usersCollection.find();
 
     for await (const user of users) {
-      if (user.username === username || user.password === password) {
+      if (user.username === username && user.password === password) {
         this.createSession(username, res);
         return res.json({ isExist: true, url: "../index.html" });
       }
@@ -196,5 +177,48 @@ export class AuthService {
     });
 
     return people.filter((person) => person.username !== user);
+  }
+
+  async addFriend(username: string, name: string): Promise<object> {
+    const db = this.dbService.getDb();
+    const users: Collection<UserInfo> = db.collection("users");
+
+    if (!(await this.isUserAlreadyThere(name, users))) {
+      return { success: false, message: "Invalid friend name" };
+    }
+
+    const friends = await this.getFriends(username);
+    if (friends.includes(name)) {
+      return { success: false, message: `${name} is already a friend` };
+    }
+
+    this.counter += 1;
+    const chat: ChatMeta = {
+      name,
+      lastMessage: "",
+      chatId: this.counter.toString(),
+    };
+
+    const userChat: ChatMeta = {
+      name: username,
+      lastMessage: "",
+      chatId: this.counter.toString(),
+    };
+
+    await users.updateOne(
+      { username },
+      {
+        $push: { chats: chat },
+      }
+    );
+
+    await users.updateOne(
+      { username: name },
+      {
+        $push: { chats: userChat },
+      }
+    );
+
+    return { success: true, message: "Friend added successfully" };
   }
 }
