@@ -12,7 +12,7 @@ export class AuthService {
     chats: [],
   };
 
-  sessions: object = { "123": "bbb" };
+  sessions: object = { "123": "bhagya" };
 
   getUsername(sessionId: string) {
     return this.sessions[sessionId];
@@ -179,7 +179,7 @@ export class AuthService {
     return names;
   };
 
-  async searchPeople(name: string, username: string) {
+  async searchPeople(name: string, user: string) {
     const usersCollection = this.getDb("users");
     const users = await usersCollection
       .find(
@@ -189,10 +189,12 @@ export class AuthService {
         { projection: { username: 1 } }
       )
       .toArray();
-    const friends = await this.getFriends(username);
+    const friends = await this.getFriends(user);
 
-    return users.map(({ _id, username }) => {
+    const people = users.map(({ _id, username }) => {
       return { username, isFriend: friends.includes(username) };
     });
+
+    return people.filter((person) => person.username !== user);
   }
 }

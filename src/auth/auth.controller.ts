@@ -64,6 +64,7 @@ export class AuthController {
   searchPeople(@Query() query: { name: string }, @Req() req: Request) {
     const { name } = query;
     const sessionId = req.cookies.sessionId;
+    if (name === "") return [];
     return this.authService.searchPeople(
       name,
       this.authService.getUsername(sessionId)
