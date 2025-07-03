@@ -19,3 +19,10 @@ export class ValidateUserName implements NestMiddleware {
     next();
   }
 }
+
+export class TerminateSession implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    res.clearCookie("sessionId", { path: "/signin" });
+    return res.redirect("./signin.html");
+  }
+}

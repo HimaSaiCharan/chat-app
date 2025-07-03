@@ -176,7 +176,7 @@ export class AuthService {
       return { username, isFriend: friends.includes(username) };
     });
 
-    return people.filter((person) => person.username !== user);
+    return people.filter((person) => person.username !== user).slice(0, 10);
   }
 
   async addFriend(username: string, name: string): Promise<object> {
