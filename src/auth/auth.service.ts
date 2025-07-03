@@ -1,13 +1,13 @@
 import { Injectable, Res } from "@nestjs/common";
 import { Collection } from "mongodb";
 import { DatabaseService } from "src/database/database.service";
-import { Chat, ChatMeta, Conversations, message, UserInfo } from "src/types";
+import { Chat, ChatMeta, UserInfo, Document } from "src/types";
 
 @Injectable()
 export class AuthService {
   constructor(private readonly dbService: DatabaseService) {}
 
-  userInfo: UserInfo = {
+  private userInfo: UserInfo = {
     username: "",
     password: "",
     chats: [],
@@ -15,23 +15,25 @@ export class AuthService {
 
   private counter: number = 0;
 
-  sessions: object = { "123": "bhagya" };
+  private sessions: object = { "123": "bhagya" };
 
   getUsername(sessionId: string) {
     return this.sessions[sessionId];
   }
 
-  getDb(dbName) {
+  private getDb<T extends Document>(dbName: string): Collection<T> {
     const db = this.dbService.getDb();
-    return db.collection(dbName);
+
+    return db.collection<T>(dbName);
   }
 
-  async isUserAlreadyThere(username: string, usersCollection) {
+  async isUserAlreadyThere(
+    username: string,
+    usersCollection: Collection<UserInfo>
+  ) {
     const values = await usersCollection.find({ username: username }).toArray();
-    if (values.length > 0) {
-      return true;
-    }
-    return false;
+
+    return values.length > 0;
   }
 
   createSession = (username: string, res) => {
@@ -41,9 +43,7 @@ export class AuthService {
   };
 
   async signupUser(username: string, password: string, res) {
-    const db = this.dbService.getDb();
-    const usersCollection = this.getDb("users");
-    const chatCollection = this.getDb("conversations");
+    const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const value = await this.isUserAlreadyThere(username, usersCollection);
 
     if (value) {
@@ -70,7 +70,7 @@ export class AuthService {
   }
 
   async signinUser(username: string, password: string, res) {
-    const usersCollection = this.getDb("users");
+    const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const users = usersCollection.find();
 
     for await (const user of users) {
@@ -84,7 +84,7 @@ export class AuthService {
   }
 
   async chatList(username: string) {
-    const usersCollection = this.getDb("users");
+    const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const user = await usersCollection
       .find({ username }, { projection: { username: 1, chats: 1 } })
       .toArray();
@@ -92,26 +92,27 @@ export class AuthService {
   }
 
   async getFriendName(frndName: string, sessionId: string) {
-    const usersCollection = this.getDb("users");
+    const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const username = this.sessions[sessionId];
     const results = await usersCollection.findOne(
       { username, "chats.name": frndName },
       { projection: { _id: 0, "chats.$": 1 } }
     );
-    const [chats] = results?.chats;
+    const [chats]: any = results?.chats;
 
     return chats.chatId;
   }
 
   async showChat(frndName: string, sessionId: string) {
     const chatId = await this.getFriendName(frndName, sessionId);
-    const chatCollection = this.getDb("conversations");
+    const chatCollection: Collection<Chat> = this.getDb<Chat>("conversations");
     const chats = await chatCollection.find({ chatId }).toArray();
+
     return { chatName: frndName, chats, success: true };
   }
 
   async getChatId(to: string, username: string) {
-    const usersCollection = this.getDb("users");
+    const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const user = await usersCollection.findOne({ username });
     if (user) {
       const chat = user.chats.find((c: ChatMeta) => c.name === to);
@@ -122,13 +123,13 @@ export class AuthService {
   }
 
   async storeChatInDb(chat: Chat) {
-    const conversations = this.getDb("conversations");
+    const conversations: Collection<Chat> = this.getDb<Chat>("conversations");
     conversations.insertOne(chat);
     return { success: true, message: "Successfully Send" };
   }
 
   async updatelastMsg(message: string, username: string, frndName: string) {
-    const usersCollection = this.getDb("users");
+    const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     await usersCollection.updateOne(
       { username, "chats.name": frndName },
       { $set: { "chats.$.lastMessage": message } }
@@ -148,7 +149,7 @@ export class AuthService {
   }
 
   private getFriends = async (username: string) => {
-    const usersCollection = this.getDb("users");
+    const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const chats = await usersCollection
       .find({ username }, { projection: { chats: 1 } })
       .toArray();
@@ -161,7 +162,7 @@ export class AuthService {
   };
 
   async searchPeople(name: string, user: string) {
-    const usersCollection = this.getDb("users");
+    const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const users = await usersCollection
       .find(
         {
@@ -181,7 +182,8 @@ export class AuthService {
 
   async addFriend(username: string, name: string): Promise<object> {
     const db = this.dbService.getDb();
-    const users: Collection<UserInfo> = db.collection("users");
+    // const users: Collection<UserInfo> = db.collection("users");
+    const users: Collection<UserInfo> = this.getDb<UserInfo>("users");
 
     if (!(await this.isUserAlreadyThere(name, users))) {
       return { success: false, message: "Invalid friend name" };

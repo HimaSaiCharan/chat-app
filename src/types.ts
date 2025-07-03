@@ -2,7 +2,7 @@ export interface Chat {
   from: string;
   to: string;
   message: string;
-  chatId: string;
+  chatId: string | null;
 }
 
 export interface ChatMeta {
@@ -17,13 +17,13 @@ export interface UserInfo {
   chats: ChatMeta[];
 }
 
-export interface Conversations {
-  id: number;
-  conversation: Chat[];
-}
+// export interface Conversations {
+//   conversation: Chat[];
+// }
 
 export interface message {
   from: string;
   to: string;
   message: string;
 }
+export type Document = { [key: string]: any };
