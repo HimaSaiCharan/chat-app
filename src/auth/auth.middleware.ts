@@ -14,7 +14,10 @@ export class ValidateUserName implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const name = req.body.username;
     if (name.includes(" ")) {
-      return res.json({ isAccountCreated: false, message: "invalid UserName" });
+      return res.json({
+        isAccountCreated: false,
+        message: "Invalid User name",
+      });
     }
     next();
   }
@@ -26,7 +29,7 @@ export class TerminateSession implements NestMiddleware {
     return res.json({
       success: true,
       redirectTo: "http://localhost:8000/signin.html",
-      message: "logout successfully",
+      message: "Logout successfully",
     });
   }
 }
