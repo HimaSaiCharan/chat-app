@@ -182,7 +182,6 @@ export class AuthService {
 
   async addFriend(username: string, name: string): Promise<object> {
     const db = this.dbService.getDb();
-    // const users: Collection<UserInfo> = db.collection("users");
     const users: Collection<UserInfo> = this.getDb<UserInfo>("users");
 
     if (!(await this.isUserAlreadyThere(name, users))) {

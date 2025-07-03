@@ -17,10 +17,6 @@ export interface UserInfo {
   chats: ChatMeta[];
 }
 
-// export interface Conversations {
-//   conversation: Chat[];
-// }
-
 export interface message {
   from: string;
   to: string;
