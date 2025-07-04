@@ -178,6 +178,8 @@ describe("AuthController", () => {
 
       expect(await authservice.getFriendChatId("malli", "12")).toBe("1");
     });
+
+    
   });
 
   describe("showChat", () => {
