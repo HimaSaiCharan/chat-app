@@ -45,7 +45,6 @@ export class AuthService {
   async signupUser(username: string, password: string, res) {
     const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const value = await this.isUserAlreadyThere(username, usersCollection);
-
     if (value) {
       return res.json({
         isAccountCreated: false,
