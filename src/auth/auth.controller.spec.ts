@@ -197,5 +197,21 @@ describe("AuthController", () => {
         success: true,
       });
     });
+    describe("searchPeople", () => {
+      it("should return the people names with that letter", async () => {
+        const mockUsers = [{ username: "batMan", password: "1", chats: [] }];
+        const mockToArray = jest.fn().mockReturnValue(mockUsers);
+        const mockFind = jest.fn().mockReturnValue({ toArray: mockToArray });
+        const mockCollection = {
+          find: mockFind,
+        };
+
+        jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+        jest.spyOn(authservice as any, "getFriends").mockReturnValue([]);
+
+        const people = await authservice.searchPeople("b", "ironMan");
+        expect(people).toEqual([{ username: "batMan", isFriend: false }]);
+      });
+    });
   });
 });

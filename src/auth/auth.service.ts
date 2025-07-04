@@ -160,19 +160,19 @@ export class AuthService {
     return names;
   };
 
-  async searchPeople(name: string, user: string) {
+  async searchPeople(friendName: string, user: string) {
     const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const users = await usersCollection
       .find(
         {
-          username: { $regex: `^${name}`, $options: "i" },
+          username: { $regex: `^${friendName}`, $options: "i" },
         },
         { projection: { username: 1 } }
       )
       .toArray();
     const friends = await this.getFriends(user);
 
-    const people = users.map(({ _id, username }) => {
+    const people = users.map(({ username }) => {
       return { username, isFriend: friends.includes(username) };
     });
 
