@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <coverage generated="1751619891165" clover="3.2.0">
   <project timestamp="1751619891165" name="All files">
     <metrics statements="157" coveredstatements="43" conditionals="12" coveredconditionals="4" methods="39" coveredmethods="5" elements="208" coveredelements="52" complexity="0" loc="157" ncloc="157" packages="3" files="6" classes="6"/>
+=======
+<coverage generated="1751621748053" clover="3.2.0">
+  <project timestamp="1751621748053" name="All files">
+    <metrics statements="158" coveredstatements="45" conditionals="12" coveredconditionals="1" methods="39" coveredmethods="6" elements="209" coveredelements="52" complexity="0" loc="158" ncloc="158" packages="3" files="6" classes="6"/>
+>>>>>>> 4994a8af (Malli | adds test cases)
     <package name="src">
       <metrics statements="23" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="3" coveredmethods="0"/>
-      <file name="app.module.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/app.module.ts">
+      <file name="app.module.ts" path="/Users/battamalleswari/workspace/node/nestjs/db/chat-app/src/app.module.ts">
         <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
@@ -16,7 +22,7 @@
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
       </file>
-      <file name="main.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/main.ts">
+      <file name="main.ts" path="/Users/battamalleswari/workspace/node/nestjs/db/chat-app/src/main.ts">
         <metrics statements="14" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="2" count="0" type="stmt"/>
@@ -35,8 +41,13 @@
       </file>
     </package>
     <package name="src.auth">
+<<<<<<< HEAD
       <metrics statements="124" coveredstatements="38" conditionals="11" coveredconditionals="4" methods="34" coveredmethods="5"/>
       <file name="auth.controller.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/auth/auth.controller.ts">
+=======
+      <metrics statements="125" coveredstatements="40" conditionals="11" coveredconditionals="1" methods="34" coveredmethods="6"/>
+      <file name="auth.controller.ts" path="/Users/battamalleswari/workspace/node/nestjs/db/chat-app/src/auth/auth.controller.ts">
+>>>>>>> 4994a8af (Malli | adds test cases)
         <metrics statements="30" coveredstatements="12" conditionals="1" coveredconditionals="0" methods="9" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
@@ -69,7 +80,7 @@
         <line num="81" count="0" type="stmt"/>
         <line num="83" count="0" type="stmt"/>
       </file>
-      <file name="auth.middleware.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/auth/auth.middleware.ts">
+      <file name="auth.middleware.ts" path="/Users/battamalleswari/workspace/node/nestjs/db/chat-app/src/auth/auth.middleware.ts">
         <metrics statements="12" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -84,8 +95,13 @@
         <line num="27" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="auth.service.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/auth/auth.service.ts">
         <metrics statements="82" coveredstatements="26" conditionals="9" coveredconditionals="4" methods="22" coveredmethods="4"/>
+=======
+      <file name="auth.service.ts" path="/Users/battamalleswari/workspace/node/nestjs/db/chat-app/src/auth/auth.service.ts">
+        <metrics statements="83" coveredstatements="28" conditionals="9" coveredconditionals="1" methods="22" coveredmethods="5"/>
+>>>>>>> 4994a8af (Malli | adds test cases)
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
@@ -96,8 +112,14 @@
         <line num="21" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
+<<<<<<< HEAD
         <line num="34" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
+=======
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+>>>>>>> 4994a8af (Malli | adds test cases)
         <line num="39" count="5" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
         <line num="41" count="0" type="stmt"/>
@@ -109,6 +131,7 @@
         <line num="56" count="1" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
+<<<<<<< HEAD
         <line num="72" count="2" type="stmt"/>
         <line num="73" count="2" type="stmt"/>
         <line num="75" count="2" type="stmt"/>
@@ -128,6 +151,27 @@
         <line num="107" count="0" type="stmt"/>
         <line num="108" count="0" type="stmt"/>
         <line num="110" count="0" type="stmt"/>
+=======
+        <line num="72" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="76" count="0" type="cond" truecount="0" falsecount="3"/>
+        <line num="77" count="0" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="82" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="94" count="1" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="100" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="107" count="1" type="stmt"/>
+        <line num="108" count="1" type="stmt"/>
+        <line num="110" count="1" type="stmt"/>
+>>>>>>> 4994a8af (Malli | adds test cases)
         <line num="114" count="0" type="stmt"/>
         <line num="115" count="0" type="stmt"/>
         <line num="116" count="0" type="cond" truecount="0" falsecount="1"/>
@@ -172,7 +216,7 @@
     </package>
     <package name="src.database">
       <metrics statements="10" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-      <file name="database.service.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/database/database.service.ts">
+      <file name="database.service.ts" path="/Users/battamalleswari/workspace/node/nestjs/db/chat-app/src/database/database.service.ts">
         <metrics statements="10" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>

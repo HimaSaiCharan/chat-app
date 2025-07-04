@@ -3,7 +3,7 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { DatabaseService } from "src/database/database.service";
 import { UserInfo } from "../types";
-import { mock } from "node:test";
+import { Collection } from "mongodb";
 
 describe("AuthController", () => {
   let authController: AuthController;
@@ -143,6 +143,58 @@ describe("AuthController", () => {
       const value = await authservice.chatList("sperMan");
       expect(value).toEqual({
         chats: [{ chatId: "1", lastMessage: "hello", name: "ironMan" }],
+      });
+    });
+  });
+
+  describe("Helper-methods", () => {
+    it("isUserAlreadyThere() => should return true when user not there", async () => {
+      const mockdata = [{ username: "Malli", password: "12", chats: [] }];
+      const mockTOArray = jest.fn().mockReturnValue(mockdata);
+      const mockFind = jest.fn().mockReturnValue({ toArray: mockTOArray });
+      const mockCollection = { find: mockFind } as unknown as jest.Mocked<
+        Collection<UserInfo>
+      >;
+
+      expect(
+        await authservice.isUserAlreadyThere("malli", mockCollection)
+      ).toBe(true);
+    });
+
+    it("getFriendChatId() => should return chatID:1", async () => {
+      const mockUser = {
+        username: "malli",
+        password: "123",
+        chats: [{ name: "a", lastMessage: "hi", chatId: "1" }],
+      };
+
+      const mockFindOne = jest.fn().mockResolvedValue(mockUser);
+
+      const mockCollection = {
+        findOne: mockFindOne,
+      } as unknown as jest.Mocked<Collection<UserInfo>>;
+
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+
+      expect(await authservice.getFriendChatId("malli", "12")).toBe("1");
+    });
+  });
+
+  describe("showChat", () => {
+    it("should return the chat details", async () => {
+      const mockData = [{ from: "malli", to: "bhagya", message: "hello" }];
+      const mockToArray = jest.fn().mockReturnValue(mockData);
+      const mockFind = jest.fn().mockReturnValue({ toArray: mockToArray });
+      const mockCollection = {
+        find: mockFind,
+      } as unknown as jest.Mocked<Collection<UserInfo>>;
+
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+      jest.spyOn(authservice as any, "getFriendChatId").mockReturnValue("1");
+      expect(await authservice.showChat("malli", "12")).toEqual({
+        chatName: "malli",
+        chats: [{ from: "malli", to: "bhagya", message: "hello" }],
+        success: true,
       });
     });
   });

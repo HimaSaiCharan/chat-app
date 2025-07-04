@@ -32,7 +32,7 @@ export class AuthService {
     usersCollection: Collection<UserInfo>
   ) {
     const values = await usersCollection.find({ username: username }).toArray();
-
+    console.log("***", values.length);
     return values.length > 0;
   }
 
@@ -90,7 +90,7 @@ export class AuthService {
     return user[0];
   }
 
-  async getFriendName(frndName: string, sessionId: string) {
+  async getFriendChatId(frndName: string, sessionId: string) {
     const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const username = this.sessions[sessionId];
     const results = await usersCollection.findOne(
@@ -98,12 +98,12 @@ export class AuthService {
       { projection: { _id: 0, "chats.$": 1 } }
     );
     const [chats]: any = results?.chats;
-
+    
     return chats.chatId;
   }
 
   async showChat(frndName: string, sessionId: string) {
-    const chatId = await this.getFriendName(frndName, sessionId);
+    const chatId = await this.getFriendChatId(frndName, sessionId);
     const chatCollection: Collection<Chat> = this.getDb<Chat>("conversations");
     const chats = await chatCollection.find({ chatId }).toArray();
 

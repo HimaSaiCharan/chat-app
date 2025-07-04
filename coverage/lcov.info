@@ -157,17 +157,28 @@ FN:175,(anonymous_21)
 FN:179,(anonymous_22)
 FN:182,(anonymous_23)
 FNF:22
+<<<<<<< HEAD
 FNH:4
+=======
+FNH:5
+>>>>>>> 4994a8af (Malli | adds test cases)
 FNDA:5,(anonymous_2)
 FNDA:0,(anonymous_3)
 FNDA:0,(anonymous_4)
-FNDA:0,(anonymous_5)
+FNDA:1,(anonymous_5)
 FNDA:0,(anonymous_6)
 FNDA:2,(anonymous_7)
+<<<<<<< HEAD
 FNDA:2,(anonymous_8)
 FNDA:1,(anonymous_9)
 FNDA:0,(anonymous_10)
 FNDA:0,(anonymous_11)
+=======
+FNDA:0,(anonymous_8)
+FNDA:0,(anonymous_9)
+FNDA:1,(anonymous_10)
+FNDA:1,(anonymous_11)
+>>>>>>> 4994a8af (Malli | adds test cases)
 FNDA:0,(anonymous_12)
 FNDA:0,(anonymous_13)
 FNDA:0,(anonymous_14)
@@ -190,8 +201,14 @@ DA:18,5
 DA:21,0
 DA:25,0
 DA:27,0
+<<<<<<< HEAD
 DA:34,0
 DA:36,0
+=======
+DA:34,1
+DA:35,1
+DA:36,1
+>>>>>>> 4994a8af (Malli | adds test cases)
 DA:39,5
 DA:40,0
 DA:41,0
@@ -203,6 +220,7 @@ DA:49,1
 DA:56,1
 DA:62,1
 DA:64,1
+<<<<<<< HEAD
 DA:72,2
 DA:73,2
 DA:75,2
@@ -222,6 +240,27 @@ DA:106,0
 DA:107,0
 DA:108,0
 DA:110,0
+=======
+DA:72,0
+DA:73,0
+DA:75,0
+DA:76,0
+DA:77,0
+DA:78,0
+DA:82,0
+DA:86,0
+DA:87,0
+DA:90,0
+DA:94,1
+DA:95,1
+DA:96,1
+DA:100,1
+DA:102,1
+DA:106,1
+DA:107,1
+DA:108,1
+DA:110,1
+>>>>>>> 4994a8af (Malli | adds test cases)
 DA:114,0
 DA:115,0
 DA:116,0
@@ -262,8 +301,13 @@ DA:202,0
 DA:208,0
 DA:215,0
 DA:222,0
+<<<<<<< HEAD
 LF:82
 LH:26
+=======
+LF:83
+LH:28
+>>>>>>> 4994a8af (Malli | adds test cases)
 BRDA:48,0,0,1
 BRDA:76,1,0,1
 BRDA:76,2,0,2
