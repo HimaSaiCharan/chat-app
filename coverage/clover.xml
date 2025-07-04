@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1751606762203" clover="3.2.0">
-  <project timestamp="1751606762203" name="All files">
-    <metrics statements="157" coveredstatements="33" conditionals="12" coveredconditionals="1" methods="39" coveredmethods="3" elements="208" coveredelements="37" complexity="0" loc="157" ncloc="157" packages="3" files="6" classes="6"/>
+<coverage generated="1751612763912" clover="3.2.0">
+  <project timestamp="1751612763912" name="All files">
+    <metrics statements="157" coveredstatements="40" conditionals="12" coveredconditionals="4" methods="39" coveredmethods="4" elements="208" coveredelements="48" complexity="0" loc="157" ncloc="157" packages="3" files="6" classes="6"/>
     <package name="src">
       <metrics statements="23" coveredstatements="0" conditionals="1" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="app.module.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/app.module.ts">
@@ -35,13 +35,13 @@
       </file>
     </package>
     <package name="src.auth">
-      <metrics statements="124" coveredstatements="28" conditionals="11" coveredconditionals="1" methods="34" coveredmethods="3"/>
+      <metrics statements="124" coveredstatements="35" conditionals="11" coveredconditionals="4" methods="34" coveredmethods="4"/>
       <file name="auth.controller.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/auth/auth.controller.ts">
         <metrics statements="30" coveredstatements="12" conditionals="1" coveredconditionals="0" methods="9" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
@@ -85,20 +85,20 @@
         <line num="28" count="0" type="stmt"/>
       </file>
       <file name="auth.service.ts" path="/Users/karadabhagyalakshmi/workspace/node/chat-app/src/auth/auth.service.ts">
-        <metrics statements="82" coveredstatements="16" conditionals="9" coveredconditionals="1" methods="22" coveredmethods="2"/>
+        <metrics statements="82" coveredstatements="23" conditionals="9" coveredconditionals="4" methods="22" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="10" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="39" count="2" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
         <line num="41" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
@@ -109,13 +109,13 @@
         <line num="56" count="1" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="77" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
+        <line num="72" count="2" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="76" count="2" type="cond" truecount="3" falsecount="0"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="78" count="1" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
         <line num="87" count="0" type="stmt"/>
         <line num="90" count="0" type="stmt"/>
@@ -143,7 +143,7 @@
         <line num="144" count="0" type="stmt"/>
         <line num="145" count="0" type="stmt"/>
         <line num="147" count="0" type="stmt"/>
-        <line num="150" count="2" type="stmt"/>
+        <line num="150" count="4" type="stmt"/>
         <line num="151" count="0" type="stmt"/>
         <line num="152" count="0" type="stmt"/>
         <line num="156" count="0" type="stmt"/>

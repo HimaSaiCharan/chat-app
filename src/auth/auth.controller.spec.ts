@@ -82,19 +82,46 @@ describe("AuthController", () => {
     });
   });
 
-  // describe("signinUser", () => {
-  //   it("should return success response when user is already there", async () => {
-  //     const mockFind = jest.fn();
-  //     const mockCollection = {
-  //       find: mockFind,
-  //     };
-  //     const res = {
-  //       json: jest.fn(),
-  //     };
+  describe("signinUser", () => {
+    it("should return success response when user is already there", async () => {
+      const mockFind = jest.fn();
 
-  //     jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
-  //     await authservice.signinUser("malli", "123", res);
-  //     expect(res.json).toHaveBeenCalledWith({ isExist: false });
-  //   });
-  // });
+      const mockUsers = [
+        { username: "malli", password: "123" },
+        { username: "superMan", password: "231" },
+      ];
+
+      const mockCollection = {
+        find: mockFind.mockReturnValue(mockUsers),
+      };
+      const res = {
+        json: jest.fn(),
+      };
+
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+      jest.spyOn(authservice as any, "createSession").mockReturnValue("");
+      await authservice.signinUser("malli", "123", res);
+      expect(res.json).toHaveBeenCalledWith({
+        isExist: true,
+        url: "../index.html",
+      });
+    });
+
+    it("should return false response when user not there", async () => {
+      const mockUsers = [{ username: "ironMan", password: "" }];
+      const mockfind = jest.fn().mockReturnValue(mockUsers);
+      const mockCollection = {
+        find: mockfind,
+      };
+      const res = {
+        json: jest.fn(),
+      };
+
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+      jest.spyOn(authservice as any, "createSession").mockReturnValue("");
+
+      await authservice.signinUser("batMan", "123", res);
+      expect(res.json).toHaveBeenCalledWith({ isExist: false });
+    });
+  });
 });
