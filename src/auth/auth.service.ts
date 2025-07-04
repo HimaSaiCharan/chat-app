@@ -98,7 +98,7 @@ export class AuthService {
       { projection: { _id: 0, "chats.$": 1 } }
     );
     const [chats]: any = results?.chats;
-    
+
     return chats.chatId;
   }
 
@@ -180,7 +180,6 @@ export class AuthService {
   }
 
   async addFriend(username: string, name: string): Promise<object> {
-    const db = this.dbService.getDb();
     const users: Collection<UserInfo> = this.getDb<UserInfo>("users");
 
     if (!(await this.isUserAlreadyThere(name, users))) {

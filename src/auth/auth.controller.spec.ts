@@ -266,4 +266,52 @@ describe("AuthController", () => {
       });
     });
   });
+
+  describe("addFriend", () => {
+    it("should return false response when the user name is invalid", async () => {
+      const mockCollection = jest.fn();
+      jest
+        .spyOn(authservice as any, "isUserAlreadyThere")
+        .mockResolvedValue(false);
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+
+      const res = await authservice.addFriend("SuperMan", "IronMan");
+      expect(res).toEqual({ success: false, message: "Invalid friend name" });
+    });
+
+    it("should return false response when the person is already a friend to user", async () => {
+      const mockCollection = jest.fn();
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+      jest
+        .spyOn(authservice as any, "isUserAlreadyThere")
+        .mockResolvedValue(true);
+      jest
+        .spyOn(authservice as any, "getFriends")
+        .mockReturnValue(["IronMan", "batMan"]);
+      const res = await authservice.addFriend("SuperMan", "IronMan");
+      expect(res).toEqual({
+        success: false,
+        message: "IronMan is already a friend",
+      });
+    });
+
+    it("should return true response when friend added into friends list", async () => {
+      const mockUpdateOne = jest.fn();
+      const mockCollection = {
+        updateOne: mockUpdateOne,
+      };
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+      jest
+        .spyOn(authservice as any, "isUserAlreadyThere")
+        .mockResolvedValue(true);
+      jest
+        .spyOn(authservice as any, "getFriends")
+        .mockReturnValue(["halk", "batMan"]);
+      const res = await authservice.addFriend("SuperMan", "IronMan");
+      expect(res).toEqual({
+        success: true,
+        message: "Friend added successfully",
+      });
+    });
+  });
 });
