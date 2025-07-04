@@ -117,8 +117,6 @@ export class AuthService {
       const chat = user.chats.find((c: ChatMeta) => c.name === to);
       return chat?.chatId ?? null;
     }
-
-    return null;
   }
 
   async storeChatInDb(chat: Chat) {

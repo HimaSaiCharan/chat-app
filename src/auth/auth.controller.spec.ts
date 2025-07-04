@@ -228,8 +228,6 @@ describe("AuthController", () => {
         message: "Successfully Send",
       });
     });
-
-    
   });
 
   describe("showChat", () => {
