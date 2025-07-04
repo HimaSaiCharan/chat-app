@@ -179,6 +179,56 @@ describe("AuthController", () => {
       expect(await authservice.getFriendChatId("malli", "12")).toBe("1");
     });
 
+    it("getChatId() => should return null if friend is not present", async () => {
+      const mockData = {
+        username: "malli",
+        password: "12",
+        chats: [{ name: "a", lastMessage: "hi", chatId: "1" }],
+      };
+      const mockFindOne = jest.fn().mockReturnValue(mockData);
+      const mockCollection = { findOne: mockFindOne } as unknown as jest.Mocked<
+        Collection<UserInfo>
+      >;
+
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+      expect(await authservice.getChatId("malli", "malli")).toBe(null);
+    });
+
+    it("getChatId() => should return chatId if friend is present", async () => {
+      const mockData = {
+        username: "malli",
+        password: "12",
+        chats: [{ name: "a", lastMessage: "hi", chatId: "1" }],
+      };
+      const mockFindOne = jest.fn().mockReturnValue(mockData);
+      const mockCollection = { findOne: mockFindOne } as unknown as jest.Mocked<
+        Collection<UserInfo>
+      >;
+
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+      expect(await authservice.getChatId("a", "malli")).toBe("1");
+    });
+
+    it("storeChatInDb() => should return success message object after storing", async () => {
+      const mockData = {
+        from: "malli",
+        to: "bhagya",
+        message: "hey bhagya",
+        chatId: "1",
+      };
+      const mockInsertOne = jest.fn().mockReturnValue(mockData);
+      const mockCollection = {
+        insertOne: mockInsertOne,
+      };
+
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+
+      expect(await authservice.storeChatInDb(mockData)).toEqual({
+        success: true,
+        message: "Successfully Send",
+      });
+    });
+
     
   });
 
