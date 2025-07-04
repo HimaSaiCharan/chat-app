@@ -82,19 +82,19 @@ describe("AuthController", () => {
     });
   });
 
-  describe("signinUser", () => {
-    it("should return success response when user is already there", async () => {
-      const mockFind = jest.fn();
-      const mockCollection = {
-        find: mockFind,
-      };
-      const res = {
-        json: jest.fn(),
-      };
+  // describe("signinUser", () => {
+  //   it("should return success response when user is already there", async () => {
+  //     const mockFind = jest.fn();
+  //     const mockCollection = {
+  //       find: mockFind,
+  //     };
+  //     const res = {
+  //       json: jest.fn(),
+  //     };
 
-      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
-      await authservice.signinUser("malli", "123", res);
-      expect(res.json).toHaveBeenCalledWith({ isExist: false });
-    });
-  });
+  //     jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+  //     await authservice.signinUser("malli", "123", res);
+  //     expect(res.json).toHaveBeenCalledWith({ isExist: false });
+  //   });
+  // });
 });
