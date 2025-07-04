@@ -3,6 +3,7 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { DatabaseService } from "src/database/database.service";
 import { UserInfo } from "../types";
+import { mock } from "node:test";
 
 describe("AuthController", () => {
   let authController: AuthController;
@@ -122,6 +123,27 @@ describe("AuthController", () => {
 
       await authservice.signinUser("batMan", "123", res);
       expect(res.json).toHaveBeenCalledWith({ isExist: false });
+    });
+  });
+
+  describe("chatList", () => {
+    it("should return the user friends", async () => {
+      const mockUsers = [
+        {
+          chats: [{ name: "ironMan", lastMessage: "hello", chatId: "1" }],
+        },
+      ];
+      const mockToArray = jest.fn().mockReturnValue(mockUsers);
+      const mockFind = jest.fn().mockReturnValue({ toArray: mockToArray });
+      const mockCollection = {
+        find: mockFind,
+      };
+
+      jest.spyOn(authservice as any, "getDb").mockReturnValue(mockCollection);
+      const value = await authservice.chatList("sperMan");
+      expect(value).toEqual({
+        chats: [{ chatId: "1", lastMessage: "hello", name: "ironMan" }],
+      });
     });
   });
 });
