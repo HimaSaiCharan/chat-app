@@ -32,7 +32,7 @@ export class AuthService {
     usersCollection: Collection<UserInfo>
   ) {
     const values = await usersCollection.find({ username: username }).toArray();
-
+    console.log("***", values.length);
     return values.length > 0;
   }
 
@@ -45,7 +45,6 @@ export class AuthService {
   async signupUser(username: string, password: string, res) {
     const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const value = await this.isUserAlreadyThere(username, usersCollection);
-
     if (value) {
       return res.json({
         isAccountCreated: false,
@@ -91,7 +90,7 @@ export class AuthService {
     return user[0];
   }
 
-  async getFriendName(frndName: string, sessionId: string) {
+  async getFriendChatId(frndName: string, sessionId: string) {
     const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const username = this.sessions[sessionId];
     const results = await usersCollection.findOne(
@@ -104,7 +103,7 @@ export class AuthService {
   }
 
   async showChat(frndName: string, sessionId: string) {
-    const chatId = await this.getFriendName(frndName, sessionId);
+    const chatId = await this.getFriendChatId(frndName, sessionId);
     const chatCollection: Collection<Chat> = this.getDb<Chat>("conversations");
     const chats = await chatCollection.find({ chatId }).toArray();
 
@@ -118,8 +117,6 @@ export class AuthService {
       const chat = user.chats.find((c: ChatMeta) => c.name === to);
       return chat?.chatId ?? null;
     }
-
-    return null;
   }
 
   async storeChatInDb(chat: Chat) {
@@ -161,19 +158,19 @@ export class AuthService {
     return names;
   };
 
-  async searchPeople(name: string, user: string) {
+  async searchPeople(friendName: string, user: string) {
     const usersCollection: Collection<UserInfo> = this.getDb<UserInfo>("users");
     const users = await usersCollection
       .find(
         {
-          username: { $regex: `^${name}`, $options: "i" },
+          username: { $regex: `^${friendName}`, $options: "i" },
         },
         { projection: { username: 1 } }
       )
       .toArray();
     const friends = await this.getFriends(user);
 
-    const people = users.map(({ _id, username }) => {
+    const people = users.map(({ username }) => {
       return { username, isFriend: friends.includes(username) };
     });
 
@@ -181,7 +178,6 @@ export class AuthService {
   }
 
   async addFriend(username: string, name: string): Promise<object> {
-    const db = this.dbService.getDb();
     const users: Collection<UserInfo> = this.getDb<UserInfo>("users");
 
     if (!(await this.isUserAlreadyThere(name, users))) {

@@ -9,7 +9,9 @@ export class DatabaseService implements OnModuleInit {
   private db: Db;
 
   async onModuleInit() {
-    this.client = new MongoClient("mongodb://127.0.0.1:27017");
+    this.client = new MongoClient(
+      "mongodb+srv://bhagyakarada26:HzYVQXWYlBXtKRsX@chatapp.oci2wxx.mongodb.net/?retryWrites=true&w=majority&appName=chatApp"
+    );
     await this.client.connect();
     this.db = this.client.db("mydatabase");
     console.log("✅ MongoDB connected");

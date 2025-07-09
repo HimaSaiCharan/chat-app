@@ -17,7 +17,7 @@ async function bootstrap() {
       }
       next();
     });
-  app.useStaticAssets(join(__dirname, "..", "public"));
+  app.useStaticAssets(join(__dirname, "..", "..", "public"));
   await app.listen(8000);
 }
 

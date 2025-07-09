@@ -2,7 +2,7 @@ export interface Chat {
   from: string;
   to: string;
   message: string;
-  chatId: string | null;
+  chatId: string | null | undefined;
 }
 
 export interface ChatMeta {
