@@ -22,3 +22,8 @@ lerna-debug.log*
 *.sln
 *.sw?
 node_modules
+
+
+# Docker files
+docker-compose.yaml
+Dockerfile
