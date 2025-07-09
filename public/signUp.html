@@ -2,32 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="./script/signUp.js"></script>
+    <title>Chat App</title>
+    <script type="module" crossorigin src="/script/signUp.js"></script>
+    <link rel="stylesheet" crossorigin href="/script/signUp.css" />
   </head>
   <body>
-    <h1 align="center">signUp</h1>
-    <div>
-      <form id="form">
-        <input
-          type="text"
-          name="username"
-          placeholder="enter username"
-          required
-        /><br />
-        <input
-          type="password"
-          name="pwd"
-          placeholder="enter password"
-          required
-        /><br />
-        <button class="submit" type="submit">Submit</button>
-      </form>
-      <p>
-        If you already have an account, please
-        <a href="./signIn.html">signIn</a>
-      </p>
-    </div>
+    <div id="root"></div>
   </body>
 </html>

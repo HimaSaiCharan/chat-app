@@ -47,9 +47,8 @@ export class AuthService {
     const value = await this.isUserAlreadyThere(username, usersCollection);
     if (value) {
       return res.json({
-        isAccountCreated: false,
+        success: false,
         message: `${username} is already used`,
-        url: null,
       });
     }
 
@@ -62,9 +61,8 @@ export class AuthService {
     await usersCollection.insertOne(this.userInfo);
 
     return res.json({
-      isAccountCreated: true,
+      success: true,
       message: "Account created successfully",
-      url: "../signIn.html",
     });
   }
 
@@ -75,11 +73,15 @@ export class AuthService {
     for await (const user of users) {
       if (user.username === username && user.password === password) {
         this.createSession(username, res);
-        return res.json({ isExist: true, url: "../index.html" });
+        return res.json({
+          success: true,
+          url: "../index.html",
+          message: "Sign in successfull",
+        });
       }
     }
 
-    return res.json({ isExist: false });
+    return res.json({ success: false, message: "Sign in failed" });
   }
 
   async chatList(username: string) {
