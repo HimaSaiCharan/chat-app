@@ -13,8 +13,6 @@ export class AuthService {
     chats: [],
   };
 
-  private counter: number = 0;
-
   private sessions: object = { "123": "bhagya" };
 
   getUsername(sessionId: string) {
@@ -191,17 +189,17 @@ export class AuthService {
       return { success: false, message: `${name} is already a friend` };
     }
 
-    this.counter += 1;
+    const id = Date.now();
     const chat: ChatMeta = {
       name,
       lastMessage: "",
-      chatId: this.counter.toString(),
+      chatId: id.toString(),
     };
 
     const userChat: ChatMeta = {
       name: username,
       lastMessage: "",
-      chatId: this.counter.toString(),
+      chatId: id.toString(),
     };
 
     await users.updateOne(
